@@ -1,5 +1,6 @@
 package com.example.semiwiki;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -25,9 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // 로그인 버튼 클릭 시 실행
         binding.buttonLogin.setOnClickListener(v -> {
-            String id = binding.editTextId.getText().toString(); // 아이디 입력값
-            String pw = binding.editTextPw.getText().toString(); // 비번 입력값
-
+            String id = binding.editTextId.getText().toString().trim(); // 아이디 입력값
+            String pw = binding.editTextPw.getText().toString().trim(); // 비번 입력값
             login(id, pw); // 로그인 함수 호출
         });
     }
@@ -43,10 +43,21 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
-                    // 로그인 성공 access_token 꺼내기
+                if (response.isSuccessful() && response.body() != null) {
+                    // 로그인 성공: access_token 꺼내기
                     String token = response.body().getAccess_token();
-                    Toast.makeText(LoginActivity.this, "로그인 성공\n토큰: " + token, Toast.LENGTH_SHORT).show();
+
+                    // 토큰 저장 (semiwiki_prefs)
+                    getSharedPreferences("semiwiki_prefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("access_token", token)
+                            .apply();
+
+                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
+                    // 메인으로 이동 & 로그인 화면 종료
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
                 } else {
                     // 로그인 실패
                     Toast.makeText(LoginActivity.this, "실패: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -61,4 +72,3 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
-
