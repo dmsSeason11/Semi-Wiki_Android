@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Nullable
     private String getAccessToken() {
-        // 네가 쓰던 prefs 이름 그대로 사용
+        // 원래 쓰던 prefs 이름 그대로 사용
         String token = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE)
                 .getString("access_token", null);
 
