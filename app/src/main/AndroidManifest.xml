@@ -22,7 +22,10 @@
             </intent-filter>
         </activity>
 
+
         <activity android:name=".MainActivity" android:exported="true" />
+        <activity android:name=".BoardActivity" />
+
 
         <activity
             android:name=".LoginActivity"

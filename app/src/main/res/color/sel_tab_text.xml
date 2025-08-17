@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 상태일 때 흰색 -->
+    <item android:state_selected="true" android:color="#FFFFFF"/>
+    <!-- 기본 상태일 때 짙은 회색 -->
+    <item android:color="#3A3A3C"/>
+</selector>
