@@ -1,30 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#66000000">
 
-    <EditText
-        android:id="@+id/editTextId"
-        android:hint="아이디"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editTextPw"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#FFFFFF">
 
-    <Button
-        android:id="@+id/button_login"
-        android:text="로그인"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp" />
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="68dp"
+            android:paddingBottom="120dp">
+
+            <!-- 타이틀 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="28dp"
+                android:text="로그인"
+                android:textColor="#111111"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- 아이디 라벨 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#5E5E5E"
+                android:paddingTop="6dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="#F7F7F7"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="아이디를 입력해주세요"
+                    android:importantForAutofill="no"
+                    android:autofillHints=""
+                    android:paddingStart="16dp"
+                    android:paddingEnd="14dp"
+                    android:textColorHint="#BDBDBD"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 비밀번호 라벨 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#5E5E5E"
+                android:paddingTop="10dp"/>
+
+            <!-- 비밀번호 입력 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="filled"
+                app:boxBackgroundColor="#F7F7F7"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:endIconMode="password_toggle"
+                app:endIconTint="#9E9E9E">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPw"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="비밀번호를 입력해주세요"
+                    android:textColorHint="#BDBDBD"
+                    android:textStyle="bold"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="14dp"
+                    android:inputType="textPassword"
+                    android:importantForAutofill="no" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 에러 문구: 버튼 위 (기본 숨김) -->
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디 또는 비밀번호가 맞지 않습니다."
+                android:textSize="11sp"
+                android:textColor="#EF4444"
+                android:paddingTop="8dp"
+                android:visibility="gone"/>
+
+            <!-- 로그인 버튼 -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:text="로그인"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:backgroundTint="#353535"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
