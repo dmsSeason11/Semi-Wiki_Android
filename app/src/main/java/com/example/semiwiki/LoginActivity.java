@@ -37,17 +37,17 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // 로그인 버튼 클릭 시 실행
-        binding.buttonLogin.setOnClickListener(v -> {
-            String id = binding.editTextId.getText().toString().trim(); // 아이디 입력값
-            String pw = binding.editTextPw.getText().toString().trim(); // 비번 입력값
+        binding.loginButton.setOnClickListener(v -> {
+            String id = binding.loginInputId.getText().toString().trim(); // 아이디 입력값
+            String pw = binding.loginInputPw.getText().toString().trim(); // 비번 입력값
 
             // [입력 검증] 비어있으면 바로 안내 후 리턴
             if (id.isEmpty()) {
-                binding.editTextId.setError("아이디를 입력해줘");
+                binding.loginInputId.setError("아이디를 입력해주세요");
                 return;
             }
             if (pw.isEmpty()) {
-                binding.editTextPw.setError("비밀번호를 입력해줘");
+                binding.loginInputPw.setError("비밀번호를 입력해주세요");
                 return;
             }
 
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     // 로그인 요청 함수
     private void login(String id, String pw) {
         // 버튼 연타 방지(간단). 실제로는 ProgressBar 사용 추천
-        binding.buttonLogin.setEnabled(false);
+        binding.loginButton.setEnabled(false);
 
         LoginRequest request = new LoginRequest(id, pw); // 요청 객체 생성
         AuthService service = RetrofitInstance.getAuthService(); // 서비스 인스턴스 얻기
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                binding.buttonLogin.setEnabled(true);
+                binding.loginButton.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null) {
                     // 로그인 성공: access_token / refresh_token 꺼내기
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                binding.buttonLogin.setEnabled(true);
+                binding.loginButton.setEnabled(true);
                 // 통신 자체가 실패 (서버 꺼짐, 인터넷 끊김 등)
                 Toast.makeText(LoginActivity.this, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
