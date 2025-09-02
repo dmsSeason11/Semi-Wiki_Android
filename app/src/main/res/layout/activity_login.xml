@@ -40,7 +40,7 @@ app:cardBackgroundColor="#FFFFFF">
         android:text="로그인"
         android:textColor="#111111"
         android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <!-- 아이디 라벨 -->
     <TextView
@@ -51,7 +51,7 @@ app:cardBackgroundColor="#FFFFFF">
         android:text="아이디"
         android:textColor="#5E5E5E"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <!-- 아이디 입력 -->
     <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +78,7 @@ app:cardBackgroundColor="#FFFFFF">
             android:paddingStart="16dp"
             android:paddingEnd="14dp"
             android:textColorHint="#BDBDBD"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- 비밀번호 라벨 -->
@@ -90,7 +90,7 @@ app:cardBackgroundColor="#FFFFFF">
         android:text="비밀번호"
         android:textColor="#5E5E5E"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <!-- 비밀번호 입력 -->
     <com.google.android.material.textfield.TextInputLayout
@@ -119,7 +119,7 @@ app:cardBackgroundColor="#FFFFFF">
             android:paddingEnd="14dp"
             android:textColorHint="#BDBDBD"
             android:textStyle="bold"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- 에러 문구 -->
@@ -131,7 +131,7 @@ app:cardBackgroundColor="#FFFFFF">
         android:text="아이디 또는 비밀번호가 맞지 않습니다."
         android:textColor="#EF4444"
         android:textSize="11sp"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <!-- 로그인 버튼 -->
     <com.google.android.material.button.MaterialButton
@@ -144,7 +144,7 @@ app:cardBackgroundColor="#FFFFFF">
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:backgroundTint="#353535"
-        app:cornerRadius="12dp" />
+        app:cornerRadius="12dp"/>
 
 </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
