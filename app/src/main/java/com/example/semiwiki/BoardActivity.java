@@ -56,13 +56,11 @@ public class BoardActivity extends AppCompatActivity {
     private void setupTabs() {
         View.OnClickListener tabClick = v -> {
             binding.tabNewest.setSelected(false);
-            binding.tabViews.setSelected(false);
             binding.tabLikes.setSelected(false);
             v.setSelected(true);
             // TODO: 정렬 기준 바꾸고 어댑터 갱신
         };
         binding.tabNewest.setOnClickListener(tabClick);
-        binding.tabViews.setOnClickListener(tabClick);
         binding.tabLikes.setOnClickListener(tabClick);
         binding.tabNewest.setSelected(true);
     }
