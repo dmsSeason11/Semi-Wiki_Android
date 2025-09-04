@@ -7,6 +7,7 @@
 
     <!-- 헤더(게스트) -->
     <LinearLayout
+        android:id="@+id/linear_layout_drawer_header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="#2B2B2B"
@@ -75,6 +76,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/view_line_2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E0E0E0"/>
@@ -92,6 +94,7 @@
         android:focusable="true">
 
         <TextView
+            android:id="@+id/tv_guest_likes_post"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -100,11 +103,13 @@
             android:textSize="16sp"/>
 
         <ImageView
+            android:id="@+id/iv_arrow_see"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/outline_arrow_forward"/>
     </LinearLayout>
     <View
+        android:id="@+id/view_line_3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E0E0E0"/>

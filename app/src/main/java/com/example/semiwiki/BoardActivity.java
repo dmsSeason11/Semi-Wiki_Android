@@ -27,7 +27,6 @@ public class BoardActivity extends AppCompatActivity {
                 binding.drawerLayout.openDrawer(GravityCompat.START));
 
         // 2) 드로어 헤더의 "로그인" 글씨 클릭 -> 로그인 화면
-        //    (activity_board.xml 의 NavigationView에 app:headerLayout="@layout/drawer_header" 가 있어야 함)
         View header = binding.navView.getHeaderView(0);
         TextView tvLoginHeader = header.findViewById(R.id.tv_guest_login);
         tvLoginHeader.setOnClickListener(v -> {

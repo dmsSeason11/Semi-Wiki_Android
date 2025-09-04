@@ -11,7 +11,7 @@
 
     <!-- 제목 (좌) -->
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -23,7 +23,7 @@
 
     <!-- 카테고리 칩들 (가운데) -->
     <LinearLayout
-        android:id="@+id/layoutChips"
+        android:id="@+id/linear_layout_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -32,7 +32,7 @@
 
     <!-- 수정자 (우) -->
     <TextView
-        android:id="@+id/tvEditor"
+        android:id="@+id/tv_editor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
