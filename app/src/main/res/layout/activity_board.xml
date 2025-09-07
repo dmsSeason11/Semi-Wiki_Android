@@ -17,6 +17,7 @@
 
         <!-- 상단바 -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_up"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:paddingStart="16dp"
@@ -82,7 +83,7 @@
                 android:text="최신순"/>
 
             <TextView
-                android:id="@+id/tabLikes"
+                android:id="@+id/tab_likes"
                 style="@style/BoardTab"
                 android:text="추천순"/>
         </LinearLayout>
@@ -97,6 +98,7 @@
             android:paddingEnd="16dp">
 
             <LinearLayout
+                android:id="@+id/linear_layout_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_board_card"
@@ -104,6 +106,7 @@
                 android:orientation="vertical">
 
                 <!-- 헤더 행 -->
+
                 <LinearLayout
                     android:id="@+id/board_header"
                     android:layout_width="match_parent"
@@ -141,6 +144,12 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/view_header_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#757575"/>
+
                 <!-- 리스트 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -148,7 +157,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:clipToPadding="false"
-                    android:paddingTop="4dp"
+                    android:paddingTop="0dp"
                     android:paddingBottom="8dp"/>
             </LinearLayout>
         </LinearLayout>
@@ -159,5 +168,6 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@android:color/white"
         app:headerLayout="@layout/drawer_header_guest"/>
 </androidx.drawerlayout.widget.DrawerLayout>
