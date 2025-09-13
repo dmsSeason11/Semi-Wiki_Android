@@ -21,6 +21,7 @@ import com.example.semiwiki.Login.RetrofitInstance;
 import com.example.semiwiki.R;
 import com.example.semiwiki.databinding.ActivityMyLikesBinding;
 import com.example.semiwiki.Login.LoginActivity;
+import com.example.semiwiki.Board.PostDetailActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +62,12 @@ public class MyLikesActivity extends AppCompatActivity {
         binding.recyclerView.addItemDecoration(
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
+
+        adapter.setOnItemClickListener((item, position) -> {
+            Intent i = new Intent(this, PostDetailActivity.class);
+            i.putExtra(PostDetailActivity.EXTRA_BOARD_ID, item.getId()); // 반드시 id 전달
+            startActivity(i);
+        });
 
         // api 아직 안 나와서 임시 방식으로 내가 좋아요한 글 화면 구성
         loadMyLikedPosts();
@@ -129,9 +136,8 @@ public class MyLikesActivity extends AppCompatActivity {
 
         Retrofit retrofit = RetrofitInstance.getRetrofitInstance();
         BoardService boardService = retrofit.create(BoardService.class);
-        LikeService likeService   = retrofit.create(LikeService.class);
+        LikeService likeService = retrofit.create(LikeService.class);
 
-        // 1) 공용 목록 한 페이지 가져오기
         boardService.getBoardList(
                 "Bearer " + token,
                 null, null, null,

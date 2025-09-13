@@ -52,6 +52,12 @@ public class BoardActivity extends AppCompatActivity {
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
 
+        adapter.setOnItemClickListener((item, position) -> {
+            Intent i = new Intent(this, PostDetailActivity.class);
+            i.putExtra(PostDetailActivity.EXTRA_BOARD_ID, item.getId());
+            startActivity(i);
+        });
+
         loadBoardListFromApi();
 
         setupTabs();
@@ -65,9 +71,9 @@ public class BoardActivity extends AppCompatActivity {
 
         TextView tvUserId = header.findViewById(R.id.tv_user_id);
         TextView tvPostCountValue = header.findViewById(R.id.tv_post_count_value);
-        View rowMyPosts    = header.findViewById(R.id.row_my_posts);
+        View rowMyPosts = header.findViewById(R.id.row_my_posts);
         View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
-        View rowLogout     = header.findViewById(R.id.layout_layout);
+        View rowLogout = header.findViewById(R.id.layout_layout);
 
         // TODO: 로그인 시점에 저장해둔 값으로 교체
         tvUserId.setText("아이디: admin");

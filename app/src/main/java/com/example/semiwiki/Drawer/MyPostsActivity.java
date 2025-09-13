@@ -20,6 +20,8 @@ import com.example.semiwiki.Login.RetrofitInstance;
 import com.example.semiwiki.R;
 import com.example.semiwiki.databinding.ActivityMyPostsBinding;
 import com.example.semiwiki.Login.LoginActivity;
+import com.example.semiwiki.Board.PostDetailActivity;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +59,12 @@ public class MyPostsActivity extends AppCompatActivity {
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
 
+        adapter.setOnItemClickListener((item, position) -> {
+            Intent i = new Intent(this, PostDetailActivity.class);
+            i.putExtra(PostDetailActivity.EXTRA_BOARD_ID, item.getId()); // 반드시 id 전달
+            startActivity(i);
+        });
+
         // 탭(최신/추천)
         setupTabs();
 
@@ -91,7 +99,6 @@ public class MyPostsActivity extends AppCompatActivity {
         View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
         View rowLogout     = header.findViewById(R.id.layout_layout);
 
-        // 마이페이지로 헤더 채우기 (스펙: GET /user/{accountId})
         fillHeaderFromApi(tvUserId, tvPostCountValue);
 
         rowMyPosts.setOnClickListener(v ->
