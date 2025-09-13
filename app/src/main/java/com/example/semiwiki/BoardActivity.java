@@ -1,5 +1,6 @@
 package com.example.semiwiki;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,24 +55,31 @@ public class BoardActivity extends AppCompatActivity {
 
     private void setupUserDrawerHeader() {
         View header = binding.navView.getHeaderView(0);
-        if (header == null) return;
+        if (header == null) {
+            header = binding.navView.inflateHeaderView(R.layout.drawer_header_user);
+        }
 
         TextView tvUserId = header.findViewById(R.id.tv_user_id);
         TextView tvPostCountValue = header.findViewById(R.id.tv_post_count_value);
-        View rowMyPosts = header.findViewById(R.id.row_my_posts);
+        View rowMyPosts    = header.findViewById(R.id.row_my_posts);
         View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
-        View rowLogout = header.findViewById(R.id.layout_layout);
+        View rowLogout     = header.findViewById(R.id.layout_layout);
 
         // TODO: 로그인 시점에 저장해둔 값으로 교체
-        tvUserId.setText("아이디: wjdidlfdnd");
+        tvUserId.setText("아이디: admin");
         tvPostCountValue.setText("12");
 
-        rowMyPosts.setOnClickListener(v ->
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-        );
-        rowLikedPosts.setOnClickListener(v ->
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-        );
+        // 화면 전환
+        rowMyPosts.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyPostsActivity.class));
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
+        rowLikedPosts.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyLikesActivity.class));
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
         rowLogout.setOnClickListener(v ->
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
         );
