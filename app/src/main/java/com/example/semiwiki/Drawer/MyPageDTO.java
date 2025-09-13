@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Drawer;
 
 public class MyPageDTO {
     private String accountId;

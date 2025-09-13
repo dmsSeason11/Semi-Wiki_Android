@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.semiwiki.Board.BoardActivity;
 import com.example.semiwiki.databinding.ActivityLoginBinding;
 
 import retrofit2.Call;
