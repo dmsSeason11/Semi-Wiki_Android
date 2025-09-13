@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Board;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.semiwiki.Login.RetrofitInstance;
+import com.example.semiwiki.Drawer.MyLikesActivity;
+import com.example.semiwiki.Drawer.MyPostsActivity;
+import com.example.semiwiki.R;
 import com.example.semiwiki.databinding.ActivityBoardBinding;
 
 import java.util.ArrayList;

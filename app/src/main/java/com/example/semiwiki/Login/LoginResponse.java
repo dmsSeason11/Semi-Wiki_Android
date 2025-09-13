@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Login;
 
 import com.google.gson.annotations.SerializedName;
 

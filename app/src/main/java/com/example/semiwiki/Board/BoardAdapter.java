@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Board;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.semiwiki.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Drawer;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Board;
 
 import java.util.List;
 

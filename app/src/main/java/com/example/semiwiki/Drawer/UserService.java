@@ -1,4 +1,6 @@
-package com.example.semiwiki;
+package com.example.semiwiki.Drawer;
+
+import com.example.semiwiki.Board.BoardListItemDTO;
 
 import java.util.List;
 
