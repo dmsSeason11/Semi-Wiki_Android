@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.semiwiki.Board.BoardAdapter;
+import com.example.semiwiki.Board.BoardActivity;
 import com.example.semiwiki.Board.BoardListItemDTO;
 import com.example.semiwiki.Board.BoardMappers;
 import com.example.semiwiki.Board.DividerDecoration;
@@ -51,6 +53,15 @@ public class MyPostsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMyPostsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ImageView logo = findViewById(R.id.iv_logo);
+        if (logo != null) {
+            logo.setOnClickListener(v -> {
+                Intent i = new Intent(this, BoardActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+            });
+        }
 
         // 햄버거 → 드로어
         binding.ivMenu.setOnClickListener(v ->
