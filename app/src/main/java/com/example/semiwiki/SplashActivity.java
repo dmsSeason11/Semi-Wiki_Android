@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // 0.5초 뒤 게시판으로 이동
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(this, BoardActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }, 500);
     }
