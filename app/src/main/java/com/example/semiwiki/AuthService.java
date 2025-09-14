@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 public interface AuthService {
 
     // 최종 요청: http://43.201.199.73:8080/auth/sign-in
-    @POST("auth/sign-in")
+    @POST("auth/signin")
     Call<LoginResponse> signIn(@Body LoginRequest request);
 }

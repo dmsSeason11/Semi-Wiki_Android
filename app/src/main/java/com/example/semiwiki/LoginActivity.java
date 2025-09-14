@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         // [자동 로그인] 이미 토큰 있으면 바로 메인으로 이동
         String existingToken = getSharedPreferences(PREF, MODE_PRIVATE).getString(KEY_AT, null);
         if (existingToken != null && !existingToken.isEmpty()) {
-            moveToMain();
+            moveToBoard();
             return;
         }
 
@@ -55,9 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // 메인으로 이동 & 로그인 화면 종료
-    private void moveToMain() {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    private void moveToBoard() {
+        Intent intent = new Intent(LoginActivity.this, BoardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
     }
 
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     // 로그인 성공: access_token / refresh_token 꺼내기
                     // ※ LoginResponse는 @SerializedName("access_token") 매핑 후 getAccessToken() 으로 받는 형태 권장
-                    String accessToken  = response.body().getAccessToken();   // getAccess_token() → getAccessToken()로 맞추기
+                    String accessToken  = response.body().getAccessToken();
                     String refreshToken = response.body().getRefreshToken();
 
                     // 토큰 저장
@@ -87,10 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                             .edit()
                             .putString(KEY_AT, accessToken)
                             .putString(KEY_RT, refreshToken)
+                            .putString("user_id", id)
                             .apply();
 
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
-                    moveToMain();
+                    moveToBoard();
                 } else {
                     //  로그인 실패: 상태코드에 따라 안내
                     int code = response.code();

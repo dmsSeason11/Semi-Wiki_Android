@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
         if (token == null || token.isEmpty()) {
             // 토큰 없으면 로그인 화면으로 이동
             startActivity(new Intent(this, LoginActivity.class));
-            finish(); // 뒤로가기 시 메인 안 보이게 종료
-            return;   // 아래 코드 실행 막기
+            finish();
+            return;
         }
 
         // 2) 토큰 있으면 메인 화면 유지
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Nullable
     private String getAccessToken() {
-        // 원래 쓰던 prefs 이름 그대로 사용
         String token = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE)
                 .getString("access_token", null);
 
