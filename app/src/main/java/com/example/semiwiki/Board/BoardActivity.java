@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -14,8 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.semiwiki.Login.RetrofitInstance;
 import com.example.semiwiki.Drawer.MyLikesActivity;
 import com.example.semiwiki.Drawer.MyPostsActivity;
+import com.example.semiwiki.Login.LoginActivity;
 import com.example.semiwiki.R;
 import com.example.semiwiki.databinding.ActivityBoardBinding;
+
+import com.example.semiwiki.Drawer.UserService;
+import com.example.semiwiki.Drawer.MyPageDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +80,12 @@ public class BoardActivity extends AppCompatActivity {
         View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
         View rowLogout = header.findViewById(R.id.layout_layout);
 
-        // TODO: 로그인 시점에 저장해둔 값으로 교체
-        tvUserId.setText("아이디: admin");
-        tvPostCountValue.setText("12");
+        SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+        String accountId = prefs.getString("account_id", "-");
+        tvUserId.setText("아이디: " + accountId);
+        tvPostCountValue.setText("0");
+
+        fillHeaderFromApi(tvUserId, tvPostCountValue);
 
         // 화면 전환
         rowMyPosts.setOnClickListener(v -> {
@@ -90,10 +98,64 @@ public class BoardActivity extends AppCompatActivity {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        rowLogout.setOnClickListener(v ->
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-        );
+        rowLogout.setOnClickListener(v -> {
+            prefs.edit()
+                    .remove("access_token")
+                    .remove("refresh_token")
+                    .remove("account_id")
+                    .apply();
+
+            Intent i = new Intent(this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            finish();
+
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
     }
+
+    private void fillHeaderFromApi(TextView tvUserId, TextView tvPostCountValue) {
+        SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+        String token     = prefs.getString("access_token", null);
+        String accountId = prefs.getString("account_id", null);
+
+        if (token == null || accountId == null) {
+            Log.w("BoardActivity", "token/accountId 누락");
+            return;
+        }
+
+        Retrofit retrofit = RetrofitInstance.getRetrofitInstance();
+        UserService userService = retrofit.create(UserService.class);
+
+        userService.getMyPage("Bearer " + token, accountId)
+                .enqueue(new Callback<MyPageDTO>() {
+                    @Override public void onResponse(Call<MyPageDTO> call, Response<MyPageDTO> resp) {
+                        // ★ 401/403 공통 처리
+                        if (resp.code() == 401 || resp.code() == 403) {
+                            handleAuthError();
+                            return;
+                        }
+                        if (resp.code() == 404) {
+                            Toast.makeText(BoardActivity.this, "해당 아이디의 사용자를 찾을 수 없어요.", Toast.LENGTH_SHORT).show();
+                            tvUserId.setText("아이디: " + accountId);
+                            tvPostCountValue.setText("0");
+                            return;
+                        }
+                        if (resp.isSuccessful() && resp.body() != null) {
+                            tvUserId.setText("아이디: " + resp.body().getAccountId());
+                            tvPostCountValue.setText(String.valueOf(resp.body().getNoticeBoardCount()));
+                        } else {
+                            Log.w("BoardActivity", "mypage 응답코드: " + resp.code());
+                        }
+
+                    }
+                    @Override public void onFailure(Call<MyPageDTO> call, Throwable t) {
+                        Log.e("BoardActivity", "mypage 실패: " + t.getMessage());
+                    }
+                });
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -152,6 +214,19 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<BoardListItemDTO>> call,
                                    Response<List<BoardListItemDTO>> response) {
+
+                // 401/403 공통 처리
+                if (response.code() == 401 || response.code() == 403) {
+                    handleAuthError();
+                    return;
+                }
+
+                // 204 빈 목록으로 처리
+                if (response.code() == 204) {
+                    adapter.submitList(new ArrayList<>());
+                    return;
+                }
+
                 if (response.isSuccessful() && response.body() != null) {
                     List<BoardItem> uiList = BoardMappers.toBoardItems(response.body());
                     adapter.submitList(uiList);
@@ -166,4 +241,17 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
     }
+    // 401/403 공통 처리
+    private void handleAuthError() {
+        Toast.makeText(this, "로그인이 만료되었어요. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show();
+        SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+        prefs.edit()
+                .remove("access_token")
+                .remove("refresh_token")
+                .remove("account_id")
+                .apply();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
 }

@@ -12,6 +12,10 @@ public class LoginResponse {
     @SerializedName("refresh_token")
     private String refreshToken;
 
+    @SerializedName(value = "accountId", alternate = {"account_id", "userId"})
+    private String accountId;
+
     public String getAccessToken() { return accessToken; }
     public String getRefreshToken() { return refreshToken; }
+    public String getAccountId()    { return accountId; }
 }

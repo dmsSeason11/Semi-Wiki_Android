@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String PREF = "semiwiki_prefs";
     private static final String KEY_AT = "access_token";
     private static final String KEY_RT = "refresh_token";
+    private static final String KEY_ACC_ID = "account_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +85,16 @@ public class LoginActivity extends AppCompatActivity {
                     String accessToken  = response.body().getAccessToken();
                     String refreshToken = response.body().getRefreshToken();
 
+                    String accountIdFromServer = response.body().getAccountId();
+                    String accountIdToSave = (accountIdFromServer != null && !accountIdFromServer.isEmpty())
+                            ? accountIdFromServer : id;
+
                     // 토큰 저장
                     getSharedPreferences(PREF, MODE_PRIVATE)
                             .edit()
                             .putString(KEY_AT, accessToken)
                             .putString(KEY_RT, refreshToken)
+                            .putString(KEY_ACC_ID, accountIdToSave)
                             .putString("user_id", id)
                             .apply();
 
