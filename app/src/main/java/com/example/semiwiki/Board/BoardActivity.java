@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.semiwiki.Login.RetrofitInstance;
+import com.example.semiwiki.Login.AuthService;
 import com.example.semiwiki.Drawer.MyLikesActivity;
 import com.example.semiwiki.Drawer.MyPostsActivity;
 import com.example.semiwiki.Login.LoginActivity;
@@ -99,12 +100,26 @@ public class BoardActivity extends AppCompatActivity {
         });
 
         rowLogout.setOnClickListener(v -> {
+            //  서버 로그아웃 호출
+            AuthService auth = RetrofitInstance.getAuthService();
+            auth.logout(accountId).enqueue(new retrofit2.Callback<Void>() {
+                @Override public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> resp) {
+                    // 서버 응답은 그냥 로깅만
+                    Log.d("BoardActivity", "logout resp=" + resp.code());
+                }
+                @Override public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+                    Log.w("BoardActivity", "logout call failed: " + t.getMessage());
+                }
+            });
+
+            // 토큰/아이디 삭제
             prefs.edit()
                     .remove("access_token")
                     .remove("refresh_token")
                     .remove("account_id")
                     .apply();
 
+            // 로그인 화면으로 이동
             Intent i = new Intent(this, LoginActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
@@ -112,7 +127,6 @@ public class BoardActivity extends AppCompatActivity {
 
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
-
     }
 
     private void fillHeaderFromApi(TextView tvUserId, TextView tvPostCountValue) {
