@@ -55,6 +55,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
         <!-- 타이틀 -->
         <TextView
             android:id="@+id/tv_board_text"
@@ -113,6 +115,7 @@
                     android:orientation="horizontal"
                     android:paddingBottom="8dp">
 
+
                     <TextView
                         android:id="@+id/board_header_title"
                         android:layout_width="0dp"
@@ -142,6 +145,12 @@
                         android:textColor="#E0E0E0"
                         android:textSize="12sp"/>
                 </LinearLayout>
+
+                <View
+                    android:id="@+id/view_header_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#757575"/>
 
                 <!-- 리스트 -->
                 <androidx.recyclerview.widget.RecyclerView
