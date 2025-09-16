@@ -20,25 +20,6 @@
             android:paddingEnd="16dp"
             android:background="@android:color/white">
 
-            <ImageView
-                android:id="@+id/iv_menu_left"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/outline_dehaze_24"
-                app:tint="#252525"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
-                android:id="@+id/iv_search_right"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/outline_search_24"
-                app:tint="#252525"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
                 android:id="@+id/iv_logo_semiwiki"
