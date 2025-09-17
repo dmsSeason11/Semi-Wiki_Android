@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
-    android:background="@drawable/bg_board_row"
-    android:layout_marginBottom="8dp">
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:background="@android:color/transparent"
+    android:baselineAligned="false"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
-    <!-- 제목 (좌) -->
+    <!-- 제목 -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
@@ -19,9 +25,9 @@
         android:ellipsize="end"
         android:text="틀 현역 유럽파 축구 선수 +5"
         android:textColor="#FF8A00"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
-    <!-- 카테고리 칩들 (가운데) -->
+    <!-- 카테고리 -->
     <LinearLayout
         android:id="@+id/linear_layout_category"
         android:layout_width="0dp"
@@ -30,7 +36,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"/>
 
-    <!-- 수정자 (우) -->
+    <!-- 수정자 -->
     <TextView
         android:id="@+id/tv_editor"
         android:layout_width="0dp"
@@ -39,7 +45,8 @@
         android:gravity="end"
         android:maxLines="1"
         android:ellipsize="end"
+        android:includeFontPadding="false"
         android:text="wjddlfdnd"
-        android:textColor="#FF8A00"
-        android:textSize="14sp"/>
+        android:textColor="#FF9E3D"
+        android:textSize="12sp"/>
 </LinearLayout>

@@ -11,9 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.semiwiki.databinding.ActivityBoardBinding;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class BoardActivity extends AppCompatActivity {
 
     private ActivityBoardBinding binding;
+
+    private BoardAdapter adapter;
+    private final List<BoardItem> boardData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +42,19 @@ public class BoardActivity extends AppCompatActivity {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        // 탭 토글
-        setupTabs();
-
-        // RecyclerView (임시)
+        // 3) RecyclerView + Adapter 연결
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // binding.recyclerView.setAdapter(...);  // 나중에 연결
+        adapter = new BoardAdapter(new ArrayList<>());
+        binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.addItemDecoration(
+                new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
+        );
+
+        loadDummy();
+        adapter.submitList(new ArrayList<>(boardData));
+
+        setupTabs();
     }
 
     // 뒤로가기: 드로어가 열려 있으면 닫기
@@ -52,15 +67,74 @@ public class BoardActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    /**  정렬 탭 */
     private void setupTabs() {
         View.OnClickListener tabClick = v -> {
             binding.tabNewest.setSelected(false);
             binding.tabLikes.setSelected(false);
             v.setSelected(true);
-            // TODO: 정렬 기준 바꾸고 어댑터 갱신
+
+            if (v.getId() == R.id.tab_newest) {
+                sortByNewest();
+            } else {
+                sortByLikes();
+            }
+
+            // 정렬 후 어댑터에 반영
+            adapter.submitList(new ArrayList<>(boardData));
         };
+
         binding.tabNewest.setOnClickListener(tabClick);
         binding.tabLikes.setOnClickListener(tabClick);
         binding.tabNewest.setSelected(true);
+    }
+
+    /** 최신순 */
+    private void sortByNewest() {
+        Collections.reverse(boardData);
+    }
+
+    /** 추천순 */
+    private void sortByLikes() {
+        Collections.sort(boardData, (a, b) -> {
+            int ca = a.getCategories() == null ? 0 : a.getCategories().size();
+            int cb = b.getCategories() == null ? 0 : b.getCategories().size();
+            return Integer.compare(cb, ca);
+        });
+    }
+
+    /** 임시 데이터*/
+    private void loadDummy() {
+        boardData.clear();
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
+                Arrays.asList("전공", "기숙사", "논란")));
+        boardData.add(new BoardItem("세미위키 안드로이드 퍼블리싱", "anseha",
+                Arrays.asList("전공")));
+        boardData.add(new BoardItem("백엔드", "wjddlfnd",
+                Arrays.asList("전공")));
     }
 }
