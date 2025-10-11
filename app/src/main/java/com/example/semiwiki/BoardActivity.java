@@ -1,7 +1,8 @@
 package com.example.semiwiki;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,15 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.semiwiki.databinding.ActivityBoardBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class BoardActivity extends AppCompatActivity {
 
     private ActivityBoardBinding binding;
     private BoardAdapter adapter;
-    private final List<BoardItem> boardData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class BoardActivity extends AppCompatActivity {
 
         setupUserDrawerHeader();
 
-        //  RecyclerView + Adapter 연결
+        // RecyclerView + Adapter 연결
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BoardAdapter(new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
@@ -44,8 +47,7 @@ public class BoardActivity extends AppCompatActivity {
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
 
-        loadDummy();
-        adapter.submitList(new ArrayList<>(boardData));
+        loadBoardListFromApi();
 
         setupTabs();
     }
@@ -63,7 +65,6 @@ public class BoardActivity extends AppCompatActivity {
         // TODO: 로그인 시점에 저장해둔 값으로 교체
         tvUserId.setText("아이디: wjdidlfdnd");
         tvPostCountValue.setText("12");
-
 
         rowMyPosts.setOnClickListener(v ->
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -85,7 +86,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    /**  정렬 탭 */
+    /** 정렬 탭 */
     private void setupTabs() {
         View.OnClickListener tabClick = v -> {
             binding.tabNewest.setSelected(false);
@@ -93,13 +94,12 @@ public class BoardActivity extends AppCompatActivity {
             v.setSelected(true);
 
             if (v.getId() == R.id.tab_newest) {
-                sortByNewest();
+                // 최신순
+                loadBoardListFromApi("recent");
             } else {
-                sortByLikes();
+                // 추천순
+                loadBoardListFromApi("like");
             }
-
-            // 정렬 후 어댑터에 반영
-            adapter.submitList(new ArrayList<>(boardData));
         };
 
         binding.tabNewest.setOnClickListener(tabClick);
@@ -107,52 +107,45 @@ public class BoardActivity extends AppCompatActivity {
         binding.tabNewest.setSelected(true);
     }
 
-    /** 최신순 */
-    private void sortByNewest() {
-        Collections.reverse(boardData);
+    /** 서버에서 게시글 목록 불러오기 */
+    private void loadBoardListFromApi() {
+        loadBoardListFromApi("recent");
     }
 
-    /** 추천순 */
-    private void sortByLikes() {
-        Collections.sort(boardData, (a, b) -> {
-            int ca = a.getCategories() == null ? 0 : a.getCategories().size();
-            int cb = b.getCategories() == null ? 0 : b.getCategories().size();
-            return Integer.compare(cb, ca);
+    private void loadBoardListFromApi(String orderBy) {
+        Retrofit retrofit = RetrofitInstance.getRetrofitInstance();
+        BoardService service = retrofit.create(BoardService.class);
+
+        // 저장된 access_token 가져오기
+        SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+        String token = prefs.getString("access_token", null);
+        if (token == null) {
+            Log.e("BoardActivity", "토큰 없음");
+            return;
+        }
+
+        service.getBoardList("Bearer " + token,
+                null,   // keyword
+                null,   // categories
+                orderBy, // orderBy
+                0,      // offset
+                20      // limit
+        ).enqueue(new Callback<List<BoardListItemDTO>>() {
+            @Override
+            public void onResponse(Call<List<BoardListItemDTO>> call,
+                                   Response<List<BoardListItemDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<BoardItem> uiList = BoardMappers.toBoardItems(response.body());
+                    adapter.submitList(uiList);
+                } else {
+                    Log.e("BoardActivity", "목록 불러오기 실패: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BoardListItemDTO>> call, Throwable t) {
+                Log.e("BoardActivity", "네트워크 에러: " + t.getMessage(), t);
+            }
         });
-    }
-
-    /** 임시 데이터*/
-    private void loadDummy() {
-        boardData.clear();
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("롤 현역 유럽파 축구 선수 +5", "wjddlfnd",
-                Arrays.asList("전공", "기숙사", "논란")));
-        boardData.add(new BoardItem("세미위키 안드로이드 퍼블리싱", "anseha",
-                Arrays.asList("전공")));
-        boardData.add(new BoardItem("백엔드", "wjddlfnd",
-                Arrays.asList("전공")));
     }
 }
