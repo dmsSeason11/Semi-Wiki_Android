@@ -19,7 +19,6 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     private ActivityBoardBinding binding;
-
     private BoardAdapter adapter;
     private final List<BoardItem> boardData = new ArrayList<>();
 
@@ -30,23 +29,17 @@ public class BoardActivity extends AppCompatActivity {
         binding = ActivityBoardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 1) 햄버거 아이콘 -> 드로어 열기
+        // 햄버거 아이콘 -> 드로어 열기
         binding.ivMenu.setOnClickListener(v ->
-                binding.drawerLayout.openDrawer(GravityCompat.START));
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+        );
 
-        // 2) 드로어 헤더의 "로그인" 글씨 클릭 -> 로그인 화면
-        View header = binding.navView.getHeaderView(0);
-        TextView tvLoginHeader = header.findViewById(R.id.tv_guest_login);
-        tvLoginHeader.setOnClickListener(v -> {
-            startActivity(new Intent(this, LoginActivity.class));
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-        });
+        setupUserDrawerHeader();
 
-        // 3) RecyclerView + Adapter 연결
+        //  RecyclerView + Adapter 연결
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BoardAdapter(new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
-
         binding.recyclerView.addItemDecoration(
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
@@ -57,7 +50,32 @@ public class BoardActivity extends AppCompatActivity {
         setupTabs();
     }
 
-    // 뒤로가기: 드로어가 열려 있으면 닫기
+    private void setupUserDrawerHeader() {
+        View header = binding.navView.getHeaderView(0);
+        if (header == null) return;
+
+        TextView tvUserId = header.findViewById(R.id.tv_user_id);
+        TextView tvPostCountValue = header.findViewById(R.id.tv_post_count_value);
+        View rowMyPosts = header.findViewById(R.id.row_my_posts);
+        View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
+        View rowLogout = header.findViewById(R.id.layout_layout);
+
+        // TODO: 로그인 시점에 저장해둔 값으로 교체
+        tvUserId.setText("아이디: wjdidlfdnd");
+        tvPostCountValue.setText("12");
+
+
+        rowMyPosts.setOnClickListener(v ->
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+        );
+        rowLikedPosts.setOnClickListener(v ->
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+        );
+        rowLogout.setOnClickListener(v ->
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+        );
+    }
+
     @Override
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
