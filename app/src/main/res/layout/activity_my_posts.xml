@@ -55,8 +55,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/feat/54-search-bar-ui
         <!-- 타이틀 -->
         <TextView
             android:id="@+id/tv_board_text"
@@ -115,7 +118,10 @@
                     android:orientation="horizontal"
                     android:paddingBottom="8dp">
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feat/54-search-bar-ui
                     <TextView
                         android:id="@+id/board_header_title"
                         android:layout_width="0dp"
@@ -146,12 +152,15 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
+<<<<<<< HEAD
                 <View
                     android:id="@+id/view_header_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#757575"/>
 
+=======
+>>>>>>> origin/feat/54-search-bar-ui
                 <!-- 리스트 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -171,5 +180,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
+<<<<<<< HEAD
         app:headerLayout="@layout/drawer_header_user"/>
 </androidx.drawerlayout.widget.DrawerLayout>
+=======
+        app:headerLayout="@layout/drawer_header_guest"/>
+</androidx.drawerlayout.widget.DrawerLayout>
+>>>>>>> origin/feat/54-search-bar-ui
