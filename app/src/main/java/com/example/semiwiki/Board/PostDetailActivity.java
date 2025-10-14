@@ -1,5 +1,6 @@
 package com.example.semiwiki.Board;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.semiwiki.R;
 import com.example.semiwiki.Login.RetrofitInstance;
@@ -32,8 +35,13 @@ public class PostDetailActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvLikeCount;
     private ImageView ivLike;
+
     private TextView tvCat1, tvCat2, tvCat3;
     private LinearLayout catWrap, tocContainer, contentContainer;
+
+    // 상단바 & 드로어
+    private ImageView ivLogo, ivMenu;
+    private DrawerLayout drawerLayout;
 
     private long boardId;
     private String token;
@@ -41,7 +49,7 @@ public class PostDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_detail); // 네가 만든 XML
+        setContentView(R.layout.activity_post_detail);
 
         boardId = getIntent().getLongExtra(EXTRA_BOARD_ID, -1);
         if (boardId <= 0) { finish(); return; }
@@ -50,8 +58,8 @@ public class PostDetailActivity extends AppCompatActivity {
         token = prefs.getString("access_token", null);
 
         bindViews();
+        wireTopBar();
 
-        // 앱에서는 좋아요 "조회만" — 클릭 비활성화
         ivLike.setClickable(false);
         ivLike.setFocusable(false);
         ivLike.setOnClickListener(null);
@@ -73,7 +81,22 @@ public class PostDetailActivity extends AppCompatActivity {
 
         tocContainer = findViewById(R.id.linear_layout_toc);
         contentContainer = findViewById(R.id.linear_layout_post_card);
+
+        ivLogo = findViewById(R.id.iv_logo_semiwiki);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
     }
+
+    private void wireTopBar() {
+        if (ivLogo != null) {
+            ivLogo.setOnClickListener(v -> {
+                Intent intent = new Intent(PostDetailActivity.this, BoardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            });
+        }
+
+        }
 
     private void loadDetail() {
         if (token == null) return;
@@ -130,7 +153,6 @@ public class PostDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Boolean> c, Response<Boolean> r) {
                         boolean liked = r.isSuccessful() && Boolean.TRUE.equals(r.body());
-                        // 조회 결과만 반영
                         ivLike.setImageResource(liked
                                 ? R.drawable.ic_fill_likes
                                 : R.drawable.ic_likes);

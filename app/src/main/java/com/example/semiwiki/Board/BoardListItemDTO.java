@@ -1,11 +1,14 @@
 package com.example.semiwiki.Board;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BoardListItemDTO {
-    private int id;
-    private String title;
-    private List<String> categories;
+    @SerializedName("id") private int id;
+    @SerializedName("title") private String title;
+    @SerializedName("categories") private List<String> categories;
+
+    @SerializedName(value = "userPreview", alternate = {"user_preview"})
     private UserPreview userPreview;
 
     public int getId() { return id; }
@@ -14,7 +17,9 @@ public class BoardListItemDTO {
     public UserPreview getUserPreview() { return userPreview; }
 
     public static class UserPreview {
+        @SerializedName(value = "userId", alternate = {"user_id"})
         private int userId;
+        @SerializedName(value = "accountId", alternate = {"account_id"})
         private String accountId;
 
         public int getUserId() { return userId; }
