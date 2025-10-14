@@ -34,15 +34,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/outline_search_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
                 android:id="@+id/iv_logo"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
@@ -55,11 +46,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> origin/feat/54-search-bar-ui
         <!-- 타이틀 -->
         <TextView
             android:id="@+id/tv_board_text"
@@ -118,10 +106,7 @@
                     android:orientation="horizontal"
                     android:paddingBottom="8dp">
 
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/feat/54-search-bar-ui
                     <TextView
                         android:id="@+id/board_header_title"
                         android:layout_width="0dp"
@@ -152,15 +137,12 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
-<<<<<<< HEAD
                 <View
                     android:id="@+id/view_header_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#757575"/>
 
-=======
->>>>>>> origin/feat/54-search-bar-ui
                 <!-- 리스트 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
