@@ -180,10 +180,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
-<<<<<<< HEAD
         app:headerLayout="@layout/drawer_header_user"/>
-</androidx.drawerlayout.widget.DrawerLayout>
-=======
-        app:headerLayout="@layout/drawer_header_guest"/>
 </androidx.drawerlayout.widget.DrawerLayout>
 >>>>>>> origin/feat/54-search-bar-ui
