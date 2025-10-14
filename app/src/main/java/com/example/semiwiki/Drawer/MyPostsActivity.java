@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.semiwiki.Board.BoardAdapter;
+import com.example.semiwiki.Board.BoardActivity;
 import com.example.semiwiki.Board.BoardListItemDTO;
 import com.example.semiwiki.Board.BoardMappers;
 import com.example.semiwiki.Board.DividerDecoration;
@@ -27,10 +29,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import android.content.SharedPreferences;
+import android.content.Intent;
+import com.example.semiwiki.Login.LoginActivity;
+import com.example.semiwiki.Login.AuthService;
+import com.example.semiwiki.Login.RetrofitInstance;
 
 public class MyPostsActivity extends AppCompatActivity {
 
@@ -44,6 +53,15 @@ public class MyPostsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMyPostsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ImageView logo = findViewById(R.id.iv_logo);
+        if (logo != null) {
+            logo.setOnClickListener(v -> {
+                Intent i = new Intent(this, BoardActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+            });
+        }
 
         // 햄버거 → 드로어
         binding.ivMenu.setOnClickListener(v ->
@@ -95,9 +113,9 @@ public class MyPostsActivity extends AppCompatActivity {
 
         TextView tvUserId = header.findViewById(R.id.tv_user_id);
         TextView tvPostCountValue = header.findViewById(R.id.tv_post_count_value);
-        View rowMyPosts    = header.findViewById(R.id.row_my_posts);
+        View rowMyPosts = header.findViewById(R.id.row_my_posts);
         View rowLikedPosts = header.findViewById(R.id.row_liked_posts);
-        View rowLogout     = header.findViewById(R.id.layout_layout);
+        View rowLogout = header.findViewById(R.id.layout_layout);
 
         fillHeaderFromApi(tvUserId, tvPostCountValue);
 
@@ -108,10 +126,43 @@ public class MyPostsActivity extends AppCompatActivity {
             startActivity(new Intent(this, MyLikesActivity.class));
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
-        rowLogout.setOnClickListener(v ->
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-        );
+        rowLogout.setOnClickListener(v -> {
+            doLogout();
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        });
     }
+
+    private void doLogout() {
+        SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+        String accountId = prefs.getString("account_id", null);
+
+
+        try {
+            AuthService auth = RetrofitInstance.getAuthService();
+            if (accountId != null) {
+                auth.logout(accountId).enqueue(new retrofit2.Callback<Void>() {
+                    @Override public void onResponse(retrofit2.Call<Void> c, retrofit2.Response<Void> r) {
+                        Log.d("MyLikesActivity", "logout resp=" + r.code());
+                    }
+                    @Override public void onFailure(retrofit2.Call<Void> c, Throwable t) {
+                        Log.w("MyLikesActivity", "logout fail: " + t.getMessage());
+                    }
+                });
+            }
+        } catch (Exception ignore) {}
+
+        prefs.edit()
+                .remove("access_token")
+                .remove("refresh_token")
+                .remove("account_id")
+                .apply();
+
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
+    }
+
 
     private void fillHeaderFromApi(TextView tvUserId, TextView tvPostCountValue) {
         SharedPreferences prefs = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
@@ -160,11 +211,9 @@ public class MyPostsActivity extends AppCompatActivity {
         service.getUserPosts(
                 "Bearer " + token,
                 accountId,
-                null, // keyword
-                null,   // categories
-                orderBy,
+                orderBy,// "recent" | "like"
                 0, // offset
-                20  // limit
+                20 // limit
         ).enqueue(new Callback<List<BoardListItemDTO>>() {
             @Override
             public void onResponse(Call<List<BoardListItemDTO>> call,
@@ -191,6 +240,7 @@ public class MyPostsActivity extends AppCompatActivity {
                         "네트워크 오류가 발생했어요", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void handleAuthError() {
