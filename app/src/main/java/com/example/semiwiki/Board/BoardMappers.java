@@ -6,14 +6,16 @@ import java.util.List;
 public class BoardMappers {
 
     public static BoardItem toBoardItem(BoardListItemDTO dto) {
-        String title = dto.getTitle();
-        String editor = "";
-        if (dto.getUserPreview() != null) {
-            editor = dto.getUserPreview().getAccountId();
-        }
-        List<String> categories = dto.getCategories();
+        String editor = (dto.getUserPreview() != null)
+                ? dto.getUserPreview().getAccountId()
+                : "";
 
-        return new BoardItem(title, editor, categories);
+        return new BoardItem(
+                dto.getId(),
+                dto.getTitle(),
+                editor,
+                dto.getCategories()
+        );
     }
 
     public static List<BoardItem> toBoardItems(List<BoardListItemDTO> dtoList) {

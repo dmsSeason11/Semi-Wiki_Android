@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 public interface BoardService {
     @GET("notice-board/list")
@@ -16,5 +17,10 @@ public interface BoardService {
             @Query("orderBy") String orderBy,
             @Query("offset") Integer offset,
             @Query("limit") Integer limit
+    );
+    @GET("notice-board/{id}")
+    Call<BoardDetailDTO> getBoardDetail(
+            @Header("Authorization") String bearerToken,
+            @Path("id") long id
     );
 }
