@@ -42,10 +42,6 @@
             android:exported="false"
             android:launchMode="singleTop"/>
 
-        <activity
-            android:name=".Board.PostDetailActivity"
-            android:exported="false"/>
-
         <activity android:name=".Drawer.MyPostsActivity" android:exported="false"/>
         <activity android:name=".Drawer.MyLikesActivity" android:exported="false"/>
 
