@@ -1,24 +1,50 @@
 package com.example.semiwiki.Login;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
 
-    private static final String BASE_URL = "http://54.180.153.122:8080/";
+
+    private static final String BASE_URL = "http://54.180.153.221:8080/";
 
     private static Retrofit retrofit;
 
+    private static volatile String currentAccessToken = null;
+
+    public static void setAccessToken(String token) {
+        currentAccessToken = token;
+    }
+    public static String getAccessToken() {
+        return currentAccessToken;
+    }
+
     private static OkHttpClient buildClient() {
-        // 네트워크 로그 확인용
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request req = chain.request();
+
+                    String path = req.url().encodedPath();
+                    boolean authNotNeeded = path.contains("/auth/signin") || path.contains("/logout");
+
+                    if (!authNotNeeded && currentAccessToken != null && !currentAccessToken.isEmpty()) {
+                        req = req.newBuilder()
+                                .header("Authorization", "Bearer " + currentAccessToken)
+                                .build();
+                    }
+                    return chain.proceed(req);
+                })
                 .addInterceptor(logging)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
@@ -28,10 +54,11 @@ public class RetrofitInstance {
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
+            Gson gson = new GsonBuilder().serializeNulls().create();
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL) // 기본 URL
-                    .addConverterFactory(GsonConverterFactory.create()) // JSON 변환
-                    .client(buildClient()) // ← 로깅/타임아웃
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(buildClient())
                     .build();
         }
         return retrofit;
