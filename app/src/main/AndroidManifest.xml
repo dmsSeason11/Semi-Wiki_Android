@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Login.LoginActivity"
             android:exported="false"
             android:noHistory="true"/>
 
@@ -38,12 +38,16 @@
             android:exported="false"/>
 
         <activity
-            android:name=".BoardActivity"
+            android:name=".Board.BoardActivity"
             android:exported="false"
             android:launchMode="singleTop"/>
 
-        <activity android:name=".MyPostsActivity" android:exported="false"/>
-        <activity android:name=".MyLikesActivity" android:exported="false"/>
+        <activity
+            android:name=".Board.PostDetailActivity"
+            android:exported="false"/>
+
+        <activity android:name=".Drawer.MyPostsActivity" android:exported="false"/>
+        <activity android:name=".Drawer.MyLikesActivity" android:exported="false"/>
 
     </application>
 </manifest>

@@ -123,6 +123,12 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/view_header_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#757575"/>
+
                 <!-- 리스트 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"

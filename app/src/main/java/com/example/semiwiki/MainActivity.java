@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.semiwiki.Login.LoginActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

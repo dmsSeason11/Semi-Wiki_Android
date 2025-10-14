@@ -36,7 +36,7 @@
                 android:id="@+id/tv_user_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="아이디: wjdidlfdnd"
+                android:text="아이디: admin"
                 android:textColor="#F9F9F9"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -61,7 +61,7 @@
                     android:id="@+id/tv_post_count_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="0"
                     android:textColor="#FF8A00"
                     android:textSize="13sp"/>
             </LinearLayout>
