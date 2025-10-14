@@ -9,7 +9,6 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.semiwiki.Board.BoardActivity;
 import com.example.semiwiki.Login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
