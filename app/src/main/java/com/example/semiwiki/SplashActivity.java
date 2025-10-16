@@ -1,4 +1,3 @@
-// SplashActivity.java
 package com.example.semiwiki;
 
 import android.content.Intent;
@@ -9,12 +8,12 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.semiwiki.Board.BoardActivity;
 import com.example.semiwiki.Login.LoginActivity;
+import com.example.semiwiki.Login.RetrofitInstance;
+import com.example.semiwiki.R;
 
 public class SplashActivity extends AppCompatActivity {
-
-    private static final String PREF = "semiwiki_prefs";
-    private static final String KEY_AT = "access_token";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +21,17 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            SharedPreferences prefs = getSharedPreferences(PREF, MODE_PRIVATE);
-            String token = prefs.getString(KEY_AT, null);
+            SharedPreferences pref = getSharedPreferences("semiwiki_prefs", MODE_PRIVATE);
+            String token = pref.getString("access_token", null);
 
-            Intent next = (token == null || token.trim().isEmpty())
-                    ? new Intent(this, LoginActivity.class)
-                    : new Intent(this, BoardActivity.class);
+            if (token != null && !token.isEmpty()) {
+                RetrofitInstance.setAccessToken(token);
+                startActivity(new Intent(this, BoardActivity.class));
+            } else {
+                startActivity(new Intent(this, LoginActivity.class));
+            }
 
-            next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(next);
             finish();
-        }, 1000); // ← 1초
+        }, 800); // 0.8초 후 이동
     }
 }
