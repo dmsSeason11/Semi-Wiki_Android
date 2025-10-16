@@ -49,7 +49,7 @@ public class BoardDetailDTO {
         private int level;
 
         private String contents;
-        
+
         private List<HeaderDTO> children;
 
         public long getId() { return id; }

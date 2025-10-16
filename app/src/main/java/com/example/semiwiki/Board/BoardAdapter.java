@@ -2,6 +2,7 @@ package com.example.semiwiki.Board;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.example.semiwiki.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.Gravity;
+
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
 
     public interface OnItemClickListener {
@@ -30,7 +33,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
         if (initial != null) items.addAll(initial);
     }
 
-    /** 필요하면 데이터 교체용 */
     public void submitList(List<BoardItem> newItems) {
         items.clear();
         if (newItems != null) items.addAll(newItems);
@@ -41,7 +43,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
         this.itemClickListener = l;
     }
 
-    @NonNull @Override
+    @NonNull
+    @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_board, parent, false);
@@ -50,61 +53,91 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH h, int position) {
-        BoardItem it = items.get(position);
+        BoardItem item = items.get(position);
 
-        h.tvTitle.setText(it.getTitle());
-        h.tvEditor.setText(it.getEditor());
+        // 제목
+        h.tvTitle.setText(nullToEmpty(item.getTitle()));
+        h.tvTitle.setMaxLines(1);
+        h.tvTitle.setEllipsize(TextUtils.TruncateAt.END);
 
+        // 수정자
+        h.tvEditor.setText(nullToEmpty(item.getEditor()));
+        h.tvEditor.setMaxLines(1);
+        h.tvEditor.setEllipsize(TextUtils.TruncateAt.END);
+
+        // 카테고리
         h.layoutChips.removeAllViews();
-        List<String> cats = it.getCategories();
+        List<String> cats = item.getCategories();
         if (cats != null && !cats.isEmpty()) {
-            for (String label : cats) {
-                TextView chip = makeChip(h.itemView.getContext(), label);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                lp.setMarginEnd(dp(h.itemView, 4));
-                h.layoutChips.addView(chip, lp);
+            int show = Math.min(2, cats.size());
+            for (int i = 0; i < show; i++) {
+                h.layoutChips.addView(makeChip(h.layoutChips.getContext(), cats.get(i)));
             }
-            h.layoutChips.setVisibility(View.VISIBLE);
-        } else {
-            h.layoutChips.setVisibility(View.GONE);
+            int remain = cats.size() - show;
+            if (remain > 0) {
+                h.layoutChips.addView(makeChip(h.layoutChips.getContext(), "+" + remain));
+            }
         }
 
         h.itemView.setOnClickListener(v -> {
             if (itemClickListener != null) {
-                int pos = h.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(items.get(pos), pos);
-                }
+                itemClickListener.onItemClick(item, h.getAdapterPosition());
             }
         });
     }
-    @Override public int getItemCount() { return items.size(); }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvEditor;
+        TextView tvTitle;
         LinearLayout layoutChips;
-        VH(@NonNull View v) {
-            super(v);
-            tvTitle = v.findViewById(R.id.tvTitle);
-            tvEditor = v.findViewById(R.id.tvEditor);
-            layoutChips = v.findViewById(R.id.layoutChips);
+        TextView tvEditor;
+
+        VH(@NonNull View itemView) {
+            super(itemView);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            layoutChips = itemView.findViewById(R.id.linear_layout_category);
+            tvEditor = itemView.findViewById(R.id.tv_editor);
         }
     }
-    private TextView makeChip(Context ctx, String text) {
+
+
+    private static View makeChip(Context ctx, String text) {
         TextView tv = new TextView(ctx);
         tv.setText(text);
-        tv.setTextSize(10);
-        tv.setTextColor(Color.parseColor("#E0E0E0"));
+
+        // 글자 작게 + 흰색 + 중앙 정렬
+        tv.setTextSize(9);
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+        tv.setSingleLine(true);
+        tv.setEllipsize(TextUtils.TruncateAt.END);
         tv.setIncludeFontPadding(false);
+        tv.setGravity(Gravity.CENTER);
         tv.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_chip));
+
+        int height = dp(ctx, 20);
+        int padH   = dp(ctx, 6);
+        tv.setPadding(padH, 0, padH, 0);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                height
+        );
+        lp.setMargins(dp(ctx, 2), 0, dp(ctx, 2), 0);
+        tv.setLayoutParams(lp);
+
         return tv;
     }
 
-    private static int dp(View v, int dp) {
-        float d = v.getResources().getDisplayMetrics().density;
-        return (int) (dp * d +0.5f);
+
+    private static int dp(Context c, int v) {
+        return Math.round(c.getResources().getDisplayMetrics().density * v);
+    }
+
+    private static String nullToEmpty(String s) {
+        return s == null ? "" : s;
     }
 }
