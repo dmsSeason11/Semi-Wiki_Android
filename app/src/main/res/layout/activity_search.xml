@@ -23,10 +23,10 @@
         app:layout_constraintTop_toBottomOf="@id/include_search_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraingEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <include
-        android:id="@+id/include_empty"
+        android:id="@+id/view_empty"
         layout="@layout/view_search_empty"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/include_search_bar"

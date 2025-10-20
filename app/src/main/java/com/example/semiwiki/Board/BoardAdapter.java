@@ -29,6 +29,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
     private final List<BoardItem> items = new ArrayList<>();
     private OnItemClickListener itemClickListener;
 
+    public BoardAdapter() {}
+
     public BoardAdapter(List<BoardItem> initial) {
         if (initial != null) items.addAll(initial);
     }
