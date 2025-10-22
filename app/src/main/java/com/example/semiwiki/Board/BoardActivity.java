@@ -54,14 +54,13 @@ public class BoardActivity extends AppCompatActivity {
         binding = ActivityBoardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 햄버거 아이콘 -> 드로어 열기
         binding.ivMenu.setOnClickListener(v ->
                 binding.drawerLayout.openDrawer(GravityCompat.START)
         );
 
         setupUserDrawerHeader();
 
-        // RecyclerView + Adapter 연결
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BoardAdapter(new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
@@ -129,7 +128,6 @@ public class BoardActivity extends AppCompatActivity {
                 }
             });
 
-            // 토큰/아이디 삭제
             prefs.edit()
                     .remove(KEY_AT)
                     .remove("refresh_token")
@@ -220,11 +218,11 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         service.getBoardList("Bearer " + token,
-                null,   // keyword
-                null,   // categories
-                orderBy, // orderBy
-                0,      // offset
-                20      // limit
+                null,
+                null,
+                orderBy,
+                0,
+                20
         ).enqueue(new Callback<List<BoardListItemDTO>>() {
             @Override
             public void onResponse(Call<List<BoardListItemDTO>> call,
@@ -247,7 +245,6 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
-    // 401/403 공통 처리
     private void handleAuthError() {
         Toast.makeText(this, "로그인이 만료되었어요. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show();
         SharedPreferences prefs = getSharedPreferences(PREF, MODE_PRIVATE);
