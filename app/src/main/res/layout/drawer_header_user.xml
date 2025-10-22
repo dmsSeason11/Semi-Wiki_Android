@@ -15,7 +15,6 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <!-- 프로필 아이콘 -->
         <ImageView
             android:id="@+id/iv_avatar"
             android:layout_width="40dp"
@@ -31,7 +30,6 @@
             android:orientation="vertical"
             android:paddingStart="12dp">
 
-            <!-- 아이디 -->
             <TextView
                 android:id="@+id/tv_user_id"
                 android:layout_width="wrap_content"
@@ -41,7 +39,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold"/>
 
-            <!-- 작성한 게시글 수 -->
             <LinearLayout
                 android:id="@+id/layout_post_count"
                 android:layout_width="wrap_content"
@@ -74,7 +71,6 @@
         android:layout_height="1dp"
         android:background="#E0E0E0"/>
 
-    <!-- 작성한 게시물 보기 -->
     <LinearLayout
         android:id="@+id/row_my_posts"
         android:layout_width="match_parent"
@@ -91,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="작성한 게시물 보기"
+            android:text="작성한 게시글 보기"
             android:textColor="#4C4C4C"
             android:textSize="16sp"/>
 
@@ -108,7 +104,6 @@
         android:layout_height="1dp"
         android:background="#E0E0E0"/>
 
-    <!-- 추천한 게시물 보기 -->
     <LinearLayout
         android:id="@+id/row_liked_posts"
         android:layout_width="match_parent"
@@ -125,7 +120,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="추천한 게시물 보기"
+            android:text="추천한 게시글 보기"
             android:textColor="#4C4C4C"
             android:textSize="16sp"/>
 
@@ -169,8 +164,8 @@
             android:layout_height="20dp"
             android:src="@drawable/outline_arrow_forward"
             app:tint="#FF645B"/>
-
     </LinearLayout>
+    
     <View
         android:id="@+id/view_line_03"
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingStart="24dp"
     android:paddingEnd="24dp"
-    android:paddingTop="200dp"
+    android:paddingTop="160dp"
     android:paddingBottom="120dp"
     android:background="@android:color/white">
 

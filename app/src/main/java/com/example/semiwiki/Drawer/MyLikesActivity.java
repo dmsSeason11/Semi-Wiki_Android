@@ -69,11 +69,9 @@ public class MyLikesActivity extends AppCompatActivity {
 
         setupUserDrawerHeader();
 
-        // 탭 그룹은 숨김(좋아요 목록은 정렬 고정)
         View tabGroup = findViewById(R.id.tab_group);
         if (tabGroup != null) tabGroup.setVisibility(View.GONE);
 
-        // 리스트
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BoardAdapter(new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
@@ -81,14 +79,12 @@ public class MyLikesActivity extends AppCompatActivity {
                 new DividerDecoration(this, 0xFF757575, 1f, 0f, 0f)
         );
 
-        // 아이템 클릭 → 상세
         adapter.setOnItemClickListener((item, position) -> {
             Intent i = new Intent(this, PostDetailActivity.class);
-            i.putExtra(PostDetailActivity.EXTRA_BOARD_ID, item.getId()); // 반드시 id 전달
+            i.putExtra(PostDetailActivity.EXTRA_BOARD_ID, item.getId());
             startActivity(i);
         });
 
-        // 실제 API로 내가 좋아요한 글 불러오기
         loadMyLikedPosts();
     }
 

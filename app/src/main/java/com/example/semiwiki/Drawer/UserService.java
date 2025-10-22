@@ -12,14 +12,12 @@ import retrofit2.http.Query;
 
 public interface UserService {
 
-    // 마이페이지(헤더)
     @GET("user/{accountId}")
     Call<MyPageDTO> getMyPage(
             @Header("Authorization") String bearerToken,
             @Path("accountId") String accountId
     );
 
-    // 내가 쓴 글 (서버 기본 정렬: 최신순)
     @GET("user/{accountId}/list")
     Call<List<BoardListItemDTO>> getUserPosts(
             @Header("Authorization") String bearerToken,
@@ -29,7 +27,6 @@ public interface UserService {
             @Query("limit") Integer limit
     );
 
-    // 내가 좋아요한 글 (최근 좋아요 순)
     @GET("user/{accountId}/list/like")
     Call<List<BoardListItemDTO>> getUserLikedPosts(
             @Header("Authorization") String bearerToken,
