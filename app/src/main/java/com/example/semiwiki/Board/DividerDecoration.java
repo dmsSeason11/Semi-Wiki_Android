@@ -30,7 +30,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
         int width = parent.getWidth();
         int childCount = parent.getChildCount();
 
-        for (int i = 0; i < childCount - 1; i++) { // 마지막 줄엔 선 X
+        for (int i = 0; i < childCount - 1; i++) {
             View child = parent.getChildAt(i);
             float left = insetStartPx;
             float right =  width - insetEndPx;
