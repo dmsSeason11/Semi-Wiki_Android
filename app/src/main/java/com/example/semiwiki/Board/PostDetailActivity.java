@@ -39,7 +39,6 @@ public class PostDetailActivity extends AppCompatActivity {
     private TextView tvCat1, tvCat2, tvCat3;
     private LinearLayout catWrap, tocContainer, contentContainer;
 
-    // 상단바 & 드로어
     private ImageView ivLogo, ivMenu;
     private DrawerLayout drawerLayout;
 
@@ -95,7 +94,6 @@ public class PostDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-
         }
 
     private void loadDetail() {
@@ -190,7 +188,6 @@ public class PostDetailActivity extends AppCompatActivity {
         while (!st.isEmpty()) {
             BoardDetailDTO.HeaderDTO h = st.pop();
 
-            // ── 목차
             TextView toc = new TextView(this);
             toc.setText(h.getHeaderNumber() + ". " + h.getTitle());
             toc.setTextSize(14f);
@@ -200,7 +197,6 @@ public class PostDetailActivity extends AppCompatActivity {
             toc.setOnClickListener(v -> scrollToSection(key));
             tocContainer.addView(toc);
 
-            // ── 섹션 블록
             LinearLayout sec = new LinearLayout(this);
             sec.setOrientation(LinearLayout.VERTICAL);
             sec.setTag(key);
