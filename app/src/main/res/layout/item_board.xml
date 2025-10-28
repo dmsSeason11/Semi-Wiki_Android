@@ -15,7 +15,6 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
 
-    <!-- 제목 -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
@@ -27,7 +26,6 @@
         android:textColor="#FF8A00"
         android:textSize="12sp"/>
 
-    <!-- 카테고리 -->
     <LinearLayout
         android:id="@+id/linear_layout_category"
         android:layout_width="0dp"
@@ -36,7 +34,6 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"/>
 
-    <!-- 수정자 -->
     <TextView
         android:id="@+id/tv_editor"
         android:layout_width="0dp"

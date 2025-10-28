@@ -9,7 +9,8 @@
         android:id="@+id/linear_layout_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#FFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_top"
@@ -17,7 +18,7 @@
             android:layout_height="56dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:background="@android:color/white">
+            android:background="#FFFFFF">
 
             <ImageView
                 android:id="@+id/iv_menu"
