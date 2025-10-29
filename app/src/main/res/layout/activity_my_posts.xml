@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#F5F5F7">
+        android:background="#FFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_up"
@@ -53,7 +53,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
         <TextView
             android:id="@+id/tv_board_text"
             android:layout_width="wrap_content"

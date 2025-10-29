@@ -111,7 +111,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
         TextView tv = new TextView(ctx);
         tv.setText(text);
 
-        // 글자 작게 + 흰색 + 중앙 정렬
         tv.setTextSize(9);
         tv.setTextColor(Color.parseColor("#FFFFFF"));
         tv.setSingleLine(true);
@@ -121,7 +120,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.VH> {
         tv.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_chip));
 
         int height = dp(ctx, 20);
-        int padH   = dp(ctx, 6);
+        int padH = dp(ctx, 6);
         tv.setPadding(padH, 0, padH, 0);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(

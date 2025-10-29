@@ -9,7 +9,10 @@
     <include
         android:id="@+id/include_search_bar"
         layout="@layout/common_search_bar"
+<<<<<<< HEAD
         android:visibility="visible"
+=======
+>>>>>>> origin/main
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
